@@ -1,0 +1,34 @@
+wordpress:
+  image:
+    repository: wordpress
+    tag: latest
+  name: my-wordpress
+  externalDatabase:
+    host: mysql-wordpress
+    user: wordpress
+    password: example
+    database: wordpress
+
+mysql:
+  image:
+    repository: mysql
+    tag: latest
+  name: mysql-wordpress
+  rootPassword: example
+  wordpressDatabase: wordpress
+  wordpressUser: wordpress
+  wordpressPassword: example
+
+phpmyadmin:
+  image:
+    repository: phpmyadmin/phpmyadmin
+    tag: latest
+  name: phpmyadmin
+  ingress:
+    enabled: true
+    host: phpmyadmin.example.com
+
+ingress:
+  enabled: true
+  host: wordpress.example.com
+

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.wordpress.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.wordpress.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.wordpress.name }}
+    spec:
+      containers:
+        - name: {{ .Values.wordpress.name }}
+          image: {{ .Values.wordpress.image.repository }}:{{ .Values.wordpress.image.tag }}
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: {{ .Values.wordpress.externalDatabase.host }}
+            - name: WORDPRESS_DB_USER
+              value: {{ .Values.wordpress.externalDatabase.user }}
+            - name: WORDPRESS_DB_PASSWORD
+              value: {{ .Values.wordpress.externalDatabase.password }}
+            - name: WORDPRESS_DB_NAME
+              value: {{ .Values.wordpress.externalDatabase.database }}
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.wordpress.name }}
+spec:
+  selector:
+    app: {{ .Values.wordpress.name }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.wordpress.name }}-ingress
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.wordpress.name }}
+                port:
+                  number: 80
+

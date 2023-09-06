@@ -1,0 +1,5 @@
+apiVersion: v2
+name: wordpress-mysql-phpmyadmin
+description: A Helm chart for deploying WordPress with MySQL and PhpMyAdmin
+version: 0.1.0
+
