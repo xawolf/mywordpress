@@ -41,12 +41,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.phpmyadmin.name }}-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
-    - host: {{ .Values.phpmyadmin.ingress.host }}
+    - host: koosha-orazizade-nl-rg2.maxtld.dev
       http:
         paths:
-          - path: /
+          - path: /dbadmin
             pathType: Prefix
             backend:
               service:

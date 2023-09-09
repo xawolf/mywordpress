@@ -26,9 +26,9 @@ phpmyadmin:
   name: phpmyadmin
   ingress:
     enabled: true
-    host: phpmyadmin.example.com
+    host: koosha-orazizade-nl-rg2.maxtld
 
 ingress:
   enabled: true
-  host: wordpress.example.com
+  host: koosha-orazizade-nl-rg2.maxtld
 
